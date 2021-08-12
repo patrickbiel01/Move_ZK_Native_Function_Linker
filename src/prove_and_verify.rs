@@ -2,10 +2,7 @@ use std::env;
 
 use crate::ropsten_query;
 use crate::cairo_sharp;
-
-use std::process::Command;
-use std::process::Output;
-use std::fs;
+use cairo_verifier;
 
 // Dependancies 
 	// - Python 3.7.1, pip3 (Write installation in libra/scripts/dev_setup.sh)
@@ -82,6 +79,9 @@ pub async fn verify(name_input: String, val_input: u128) -> bool {
 	// DEBUGGING
 	println!("{:?}", params);
 
+	// cairo_verifier::verify_proof(
+	// 	proof_params, proof, task_meta_data,  cairo_aux_input, cairo_verifier_id
+	// );
 
 	//Revert back to original env's directory
 	assert!(env::set_current_dir(dir).is_ok());
@@ -92,8 +92,6 @@ pub async fn verify(name_input: String, val_input: u128) -> bool {
 	//Get back facts that verified succesfully?
 
 	//If our fact is one of the ones verified succesfully, return true
-
-	assert!(false);
 
 	return true;
 }
