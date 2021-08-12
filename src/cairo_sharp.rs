@@ -95,3 +95,38 @@ pub fn parse_output(output: &Output) -> Result< (String, String), String > {
 
 	return Ok( (fact, job_key) );
 }
+
+pub fn wait_for_processed_status(job_key: String) {
+	let mut processed = false;
+	while !processed {
+		let output = Command::new("cairo-sharp") //cairo-sharp status JOB_KEY
+        	.args(&["status", &job_key])
+			.output()
+        	.expect("Failed to execute: cairo-sharp status JOB_KEY ");
+		
+		
+		if output.stderr.len() != 0 {
+			// ------- Debugging
+			let mut output_string = String::from("");
+			for i in 0..output.stderr.len() {
+				if output.stderr[i] as char == '\n' {
+					break;
+				}
+				output_string.push(output.stderr[i] as char);
+			}
+			println!("output_string: {}",output_string );
+			assert!(false);
+		}
+
+		let mut output_string = String::from("");
+		for i in 0..output.stdout.len() {
+			if output.stdout[i] as char == '\n' {
+				break;
+			}
+			output_string.push(output.stdout[i] as char);
+		}
+		if output_string == String::from("PROCESSED") {
+			processed = true;
+		}
+	}
+}

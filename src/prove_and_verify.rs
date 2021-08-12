@@ -3,6 +3,10 @@ use std::env;
 use crate::ropsten_query;
 use crate::cairo_sharp;
 
+use std::process::Command;
+use std::process::Output;
+use std::fs;
+
 // Dependancies 
 	// - Python 3.7.1, pip3 (Write installation in libra/scripts/dev_setup.sh)
 	// - Cairo Lang Files (pip3 install cairo-lang-0.1.0.zip)
@@ -60,46 +64,8 @@ pub async fn verify(name_input: String, val_input: u128) -> bool {
 	println!("The Parsed Fact: {}", fact);
 
 
-
-
-	/* --------------
-	OPTION 1 for waiting:
-	Poll "cairo-sharp status" until it is ready
-	Currently this is pretty bad since the Move Command will have to wait until SHARP is done verifying
-	Alternatives:
-		Use multi-threading (is it possible to achieve true asynchrousity on the blockchain?)
-	------------------ */
-	// let query_limit = 100;
-	// let mut status_success = false;
-	// for _ in 0..query_limit {
-	// 	//Create the query
-	// 	let output = Command::new("cairo-sharp") //cairo-sharp status job_key
-    //     	.args(&["status", &job_key[..]])
-	// 		.output()
-    //     	.expect("Failed to execute: cairo-sharp status job_key"); //TODO: Return an error instead
-	// 	if !output.status.success() { continue; }
-
-	// 	//Break out of loop when query is "PROCESSED"
-	// 	let mut status = String::from("");
-	// 	for code_ascii in output.stdout {
-	// 		status.push(code_ascii as char);
-	// 	}
-		
-	// 	// DEGUBBING
-	// 	//println!("{}", status);
-
-	// 	if status == String::from("PROCESSED\n") {
-	// 		status_success = true;
-	// 		break;
-	// 	}
-	// }
-
-	// //If status timed out, return false
-	// if !status_success {
-	// 	return false;
-	// }
-
-
+	/* Wait until SHARP has generated the proof and sent it to the Ropsten Chain */
+	cairo_sharp::wait_for_processed_status(job_key);
 
 
 	/* ------------------
@@ -126,6 +92,8 @@ pub async fn verify(name_input: String, val_input: u128) -> bool {
 	//Get back facts that verified succesfully?
 
 	//If our fact is one of the ones verified succesfully, return true
+
+	assert!(false);
 
 	return true;
 }
