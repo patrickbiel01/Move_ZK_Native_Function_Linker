@@ -88,6 +88,14 @@ pub fn parse_output(output: &Output) -> Result< (String, String), String > {
 
 
 	if job_key.len() == 0 || fact.len() == 0 {
+		let mut err = String::from("");
+		for i in 0..output.stderr.len() {
+			if output.stderr[i] as char == '\n' {
+				break;
+			}
+			err.push(output.stderr[i] as char);
+		}
+		println!("Error Message: {}", err);
 		//The value < x, it did not pass the Cairo assert
 		//println!("No sufficent funds");
 		return Err(String::from("No sufficent funds"));

@@ -17,8 +17,10 @@ pub async fn verify(name_input: String, val_input: u128) -> bool {
 	---------------- */
 	let dir = env::current_dir().unwrap();
 	let mut path = project_root::get_project_root().expect("Could not get project root"); //TODO: Return an error instead
-	//path.push("ol");
-	//path.push("zero_knowledge");
+	//Extra OL Path
+	// path.push("ol");
+	// path.push("zero_knowledge");
+	// path.push("move_zk_native_function_linker");
 	path.push("assets");
 
 	assert!(env::set_current_dir(path).is_ok());
@@ -36,13 +38,13 @@ pub async fn verify(name_input: String, val_input: u128) -> bool {
 	//Fail if sneding to SHARP Fails
 	if !output.status.success() {
 		println!("cairo unsuccessfully ran");
-		/* DEBUGGING
-		// let mut err_message = String::from("");
-		// for out_int in output.stderr {
-		// 	err_message.push(out_int as char);
-		// }
-		// println!("OUTPUT: {}", err_message);
-		--------------- */
+		//DEBUGGING
+		let mut err_message = String::from("");
+		for out_int in output.stderr {
+			err_message.push(out_int as char);
+		}
+		println!("OUTPUT: {}", err_message);
+		//--------------- */
 		return false;
 	}
 

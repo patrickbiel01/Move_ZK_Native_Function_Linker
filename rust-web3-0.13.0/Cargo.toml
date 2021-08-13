@@ -53,5 +53,3 @@ http = ["hyper", "url", "base64"]
 http-tls = ["hyper-tls", "native-tls", "http"]
 ws = ["soketto", "async-std", "url"]
 ws-tls = ["async-native-tls", "native-tls", "ws"]
-
-[workspace]
