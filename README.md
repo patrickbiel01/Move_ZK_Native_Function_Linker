@@ -2,7 +2,7 @@
 A library that defines proving and verifying logic for a Move Module
 
 ## Verify
-Given a proof, it sends it through the [Cairo Verifier](https://github.com/patrickbiel01/Move_Native_Function_Linker) to make sure it's valid
+Given a proof, it sends it through the [Cairo Verifier](https://github.com/patrickbiel01/Cairo_Verifier) to make sure it's valid
 
 ## Prove
 Given an amount, it verifies that the amount is sufficient by executing the Cairo Program, sending the trace to [SHARP](https://www.cairo-lang.org/docs/sharp.html) (Shared Prover), scraping the proof off of the Ropsten Testnet and returning it
