@@ -1,5 +1,6 @@
 # Move_ZK_Native_Function_Linker
-A library that defines proving and verifying logic for a Move Module
+A library that defines proving and verifying logic for a Move Module.
+<br>For a detailed overview look at my [Medium post](https://medium.com/@patrick.adam.biel/zk-starks-cairo-and-open-libra-a5e5984c82b2).
 
 ## Verify
 Given a proof, it sends it through the [Cairo Verifier](https://github.com/patrickbiel01/Cairo_Verifier) to make sure it's valid
