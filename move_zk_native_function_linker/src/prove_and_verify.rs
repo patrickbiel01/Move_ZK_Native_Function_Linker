@@ -10,7 +10,7 @@ use cairo_verifier;
 	
 
 // Goal of Cairo Program is to prove and verifiy that the input's value is above x
-//TODO: Convert bool -> Result<bool, io::Error>
+#[tokio::main]
 pub async fn verify(name_input: String, val_input: u128) -> bool {
 	/* --------------
 		Recording current driectory and switching to project_root/assests
@@ -55,7 +55,11 @@ pub async fn verify(name_input: String, val_input: u128) -> bool {
 		Job key: Some_Hex_Val-Some_Hex_Val-Some_Hex_Val-Some_Hex_Val-Some_Hex_Val
 		Fact: 0xSome_BIG_Hex_Val
 	------------------ */
-	let (fact, job_key) = cairo_sharp::parse_output(&output).expect("Couldn't Properly parse Fact");
+	let res_output = cairo_sharp::parse_output(&output);
+	let (fact, job_key) = match res_output {
+		Ok((fact_tmp, key_tmp)) => (fact_tmp, key_tmp),
+		Err(_error) 			=> return false,
+	};
 
 
 	// DEBUGGING
@@ -81,19 +85,13 @@ pub async fn verify(name_input: String, val_input: u128) -> bool {
 	// DEBUGGING
 	println!("{:?}", params);
 
+	//Pass proof to verifier. If there is no panic => proof is valid 
 	// cairo_verifier::verify_proof(
 	// 	proof_params, proof, task_meta_data,  cairo_aux_input, cairo_verifier_id
 	// );
 
 	//Revert back to original env's directory
 	assert!(env::set_current_dir(dir).is_ok());
-
-
-	//Pass proof to verifier
-
-	//Get back facts that verified succesfully?
-
-	//If our fact is one of the ones verified succesfully, return true
 
 	return true;
 }
